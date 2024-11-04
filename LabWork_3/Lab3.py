@@ -1,28 +1,24 @@
 def count_letters(main_text):
-    letters = []
     symbol_dict = {}
 
     for symbol in main_text:
         if symbol.isalpha():
-            letters.append(symbol.lower())
-    unique_symbols = list(letters)
-
-    for symbol in unique_symbols:
-        symbol_dict[symbol] = unique_symbols.count(symbol)
-
+            symbol = symbol.lower()
+            if symbol in symbol_dict:
+                symbol_dict[symbol] += 1
+            else:
+                symbol_dict[symbol] = 1
+    
     return symbol_dict
 
-def calculate_frequency(symbols_dict_template, main_text):
-    letters = []
+def calculate_frequency(symbols_dict_template):
+    symbols_dict = {}
 
-    for symbol in main_text:
-        if symbol.isalpha():
-            letters.append(symbol.lower())
+    sum_of_letters = sum(symbols_dict_template.values())
+    for letter_index, count in symbols_dict_template.items():
+        symbols_dict[letter_index] = count/sum_of_letters
 
-    for index, value in symbols_dict_template.items():
-        symbols_dict_template[index] = value/len(letters)
-
-    return symbols_dict_template
+    return symbols_dict
 
 main_str = """
 У лукоморья дуб зелёный;
@@ -61,7 +57,7 @@ main_str = """
 """
 
 symbols_ = count_letters(main_str)
-symbols_freq = calculate_frequency(symbols_,main_str)
+symbols_freq = calculate_frequency(symbols_)
 
 for index, value in symbols_freq.items():
     print(f'{index}: {value:.2f}')
